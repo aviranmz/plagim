@@ -7,6 +7,7 @@ import cookieParser from 'cookie-parser'
 import rateLimit from 'express-rate-limit'
 import dotenv from 'dotenv'
 import path from 'path'
+import fs from 'fs'
 
 // Import routes
 import professionalInfoRoutes from './routes/professionalInfoMock'
@@ -76,26 +77,28 @@ app.use('/api/professional-info', professionalInfoRoutes)
 
 // Database-dependent routes (only load if database is available)
 if (process.env.DATABASE_URL) {
-  try {
-    const authRoutes = require('./routes/auth').default
-    const projectRoutes = require('./routes/projects').default
-    const projectJsonbRoutes = require('./routes/projectJsonb').default
-    const contactRoutes = require('./routes/contacts').default
-    const adminRoutes = require('./routes/admin').default
-    
-    app.use('/api/auth', authRoutes)
-    app.use('/api/projects', projectRoutes)
-    app.use('/api/projects', projectJsonbRoutes)
-    app.use('/api/contacts', contactRoutes)
-    app.use('/api/admin', adminRoutes)
-    app.use('/api/public/projects', projectRoutes)
-  } catch (error) {
-    console.log('Database routes not available:', error.message)
-  }
+  // Use dynamic imports for routes that depend on database
+  Promise.all([
+    import('./routes/auth'),
+    import('./routes/projects'),
+    import('./routes/projectJsonb'),
+    import('./routes/contacts'),
+    import('./routes/admin')
+  ])
+    .then(([authModule, projectsModule, projectJsonbModule, contactsModule, adminModule]) => {
+      app.use('/api/auth', authModule.default)
+      app.use('/api/projects', projectsModule.default)
+      app.use('/api/projects', projectJsonbModule.default)
+      app.use('/api/contacts', contactsModule.default)
+      app.use('/api/admin', adminModule.default)
+      app.use('/api/public/projects', projectsModule.default)
+    })
+    .catch((error) => {
+      console.log('Database routes not available:', error.message)
+    })
 }
 
 // Serve static files - try frontend build first, then fallback to public
-const fs = require('fs')
 
 // Try multiple possible paths for frontend build (works in different environments)
 const possibleFrontendPaths = [
