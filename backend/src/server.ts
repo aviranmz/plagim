@@ -8,13 +8,27 @@ import rateLimit from 'express-rate-limit'
 import dotenv from 'dotenv'
 
 // Import routes
-import authRoutes from './routes/auth'
-import projectRoutes from './routes/projects'
-import projectJsonbRoutes from './routes/projectJsonb'
 import professionalInfoRoutes from './routes/professionalInfoMock'
-import contentSectionsRoutes from './routes/contentSections'
-import contactRoutes from './routes/contacts'
-import adminRoutes from './routes/admin'
+
+// Database-dependent routes (only load if database is available)
+let authRoutes: any = null
+let projectRoutes: any = null
+let projectJsonbRoutes: any = null
+let contactRoutes: any = null
+let adminRoutes: any = null
+
+// Try to load database-dependent routes
+try {
+  if (process.env.DATABASE_URL) {
+    authRoutes = require('./routes/auth').default
+    projectRoutes = require('./routes/projects').default
+    projectJsonbRoutes = require('./routes/projectJsonb').default
+    contactRoutes = require('./routes/contacts').default
+    adminRoutes = require('./routes/admin').default
+  }
+} catch (error) {
+  console.log('Database routes not available:', error.message)
+}
 
 // Import middleware
 import { errorHandler } from './middleware/errorHandler'
@@ -93,16 +107,16 @@ app.get('/', (req, res) => {
 })
 
 // API routes
-app.use('/api/auth', authRoutes)
-app.use('/api/projects', projectRoutes)
-app.use('/api/projects', projectJsonbRoutes)
+if (authRoutes) app.use('/api/auth', authRoutes)
+if (projectRoutes) app.use('/api/projects', projectRoutes)
+if (projectJsonbRoutes) app.use('/api/projects', projectJsonbRoutes)
 app.use('/api/professional-info', professionalInfoRoutes)
 // app.use('/api/content-sections', contentSectionsRoutes) // JSONB-specific routes
-app.use('/api/contacts', contactRoutes)
-app.use('/api/admin', adminRoutes)
+if (contactRoutes) app.use('/api/contacts', contactRoutes)
+if (adminRoutes) app.use('/api/admin', adminRoutes)
 
 // Public routes for frontend
-app.use('/api/public/projects', projectRoutes)
+if (projectRoutes) app.use('/api/public/projects', projectRoutes)
 
 // Error handling middleware
 app.use(notFound)
