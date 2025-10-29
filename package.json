@@ -2,6 +2,7 @@
   "name": "plagim",
   "version": "1.0.0",
   "description": "Plagim - Milano Design Week themed project management platform",
+  "main": "backend/src/server.ts",
   "private": true,
   "workspaces": [
     "frontend",
@@ -22,6 +23,7 @@
     "test:backend": "npm run test --workspace=backend",
     "type-check": "npm run type-check --workspace=frontend && npm run type-check --workspace=backend",
     "clean": "npm run clean --workspace=frontend && npm run clean --workspace=backend",
+    "start": "npm run start:backend",
     "start:frontend": "npm run preview --workspace=frontend",
     "start:backend": "npm run start --workspace=backend",
     "prepare": "husky",
