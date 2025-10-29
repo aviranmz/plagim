@@ -72,18 +72,7 @@ app.get('/api/health', (req, res) => {
 
 // Root route - basic info about the API
 app.get('/', (req, res) => {
-  res.json({
-    message: 'Plagim Swimming Pools API',
-    version: '1.0.0',
-    status: 'running',
-    endpoints: {
-      health: '/health',
-      api: '/api',
-      projects: '/api/projects',
-      professionalInfo: '/api/professional-info',
-      contacts: '/api/contacts'
-    }
-  })
+  res.json({ message: 'Plagim API is running' })
 })
 
 // API routes
