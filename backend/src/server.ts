@@ -96,11 +96,47 @@ if (process.env.DATABASE_URL) {
 
 // Serve static files - try frontend build first, then fallback to public
 const fs = require('fs')
-const frontendDistPath = path.join(__dirname, '../../frontend/dist')
-const publicPath = path.join(__dirname, '../public')
 
-// Check if frontend build exists (production)
-if (fs.existsSync(frontendDistPath) && fs.existsSync(path.join(frontendDistPath, 'index.html'))) {
+// Try multiple possible paths for frontend build (works in different environments)
+const possibleFrontendPaths = [
+  path.join(__dirname, '../../frontend/dist'),           // Local dev: backend/dist/src -> frontend/dist
+  path.join(process.cwd(), 'frontend/dist'),            // Railway root: /app/frontend/dist
+  path.join(process.cwd(), '../frontend/dist'),         // Alternative Railway path
+  path.resolve(__dirname, '../../../frontend/dist'),    // Deep nesting fallback
+]
+
+// Try multiple possible paths for public directory
+const possiblePublicPaths = [
+  path.join(__dirname, '../public'),
+  path.join(process.cwd(), 'backend/public'),
+  path.join(process.cwd(), 'public'),
+]
+
+let frontendDistPath = null
+let publicPath = null
+
+// Find frontend build
+for (const testPath of possibleFrontendPaths) {
+  const indexPath = path.join(testPath, 'index.html')
+  if (fs.existsSync(testPath) && fs.existsSync(indexPath)) {
+    frontendDistPath = testPath
+    console.log('✅ Found frontend build at:', frontendDistPath)
+    break
+  }
+}
+
+// Find public directory
+for (const testPath of possiblePublicPaths) {
+  const indexPath = path.join(testPath, 'index.html')
+  if (fs.existsSync(testPath) && fs.existsSync(indexPath)) {
+    publicPath = testPath
+    console.log('✅ Found public directory at:', publicPath)
+    break
+  }
+}
+
+// Serve frontend build if found
+if (frontendDistPath) {
   console.log('📦 Serving frontend from:', frontendDistPath)
   app.use(express.static(frontendDistPath))
   
@@ -112,7 +148,7 @@ if (fs.existsSync(frontendDistPath) && fs.existsSync(path.join(frontendDistPath,
     }
     res.sendFile(path.join(frontendDistPath, 'index.html'))
   })
-} else if (fs.existsSync(publicPath) && fs.existsSync(path.join(publicPath, 'index.html'))) {
+} else if (publicPath) {
   // Fallback to public directory
   console.log('📦 Serving static files from:', publicPath)
   app.use(express.static(publicPath))
@@ -125,6 +161,9 @@ if (fs.existsSync(frontendDistPath) && fs.existsSync(path.join(frontendDistPath,
   })
 } else {
   console.log('⚠️  No frontend build found, serving API only')
+  console.log('Search paths checked:', possibleFrontendPaths)
+  console.log('Current working directory:', process.cwd())
+  console.log('__dirname:', __dirname)
 }
 
 // Error handling middleware
