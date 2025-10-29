@@ -1,0 +1,49 @@
+#!/usr/bin/env sh
+. "$(dirname "$0")/_/husky.sh"
+
+echo "🚀 Running pre-push checks (production configuration)..."
+
+# Set production environment
+export NODE_ENV=production
+
+echo "📦 Running full project checks..."
+
+# Backend production checks
+echo "🔧 Checking backend (production)..."
+cd backend
+if [ -f "package.json" ]; then
+  echo "  📋 Running backend linting..."
+  npm run lint || { echo "❌ Backend linting failed"; exit 1; }
+  
+  echo "  🏗️  Running backend build (production)..."
+  npm run build || { echo "❌ Backend production build failed"; exit 1; }
+  
+  echo "  🧪 Running backend tests..."
+  npm test || { echo "❌ Backend tests failed"; exit 1; }
+  
+  echo "  ✅ Backend production checks passed"
+fi
+cd ..
+
+# Frontend production checks
+echo "🎨 Checking frontend (production)..."
+cd frontend
+if [ -f "package.json" ]; then
+  echo "  📋 Running frontend linting..."
+  npm run lint || { echo "❌ Frontend linting failed"; exit 1; }
+  
+  echo "  🏗️  Running frontend build (production)..."
+  npm run build || { echo "❌ Frontend production build failed"; exit 1; }
+  
+  echo "  🧪 Running frontend tests..."
+  npm test || { echo "❌ Frontend tests failed"; exit 1; }
+  
+  echo "  ✅ Frontend production checks passed"
+fi
+cd ..
+
+# Type checking
+echo "🔍 Running TypeScript type checking..."
+npm run type-check || { echo "❌ Type checking failed"; exit 1; }
+
+echo "🎉 All production checks passed! Ready to push to production."

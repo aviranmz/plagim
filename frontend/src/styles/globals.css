@@ -1,0 +1,212 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@400;500;600;700;800;900&family=Source+Sans+Pro:wght@300;400;600;700;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Modern CSS for Plagim luxury swimming pool company */
+
+@layer base {
+  html {
+    font-family: 'Poppins', system-ui, sans-serif;
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    @apply text-neutral-800 bg-white;
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Playfair Display', serif;
+    @apply font-bold;
+    letter-spacing: -0.02em;
+  }
+  
+  /* RTL/LTR Support */
+  html[dir="rtl"] {
+    direction: rtl;
+  }
+  
+  html[dir="ltr"] {
+    direction: ltr;
+  }
+  
+  .rtl {
+    direction: rtl;
+  }
+  
+  .ltr {
+    direction: ltr;
+  }
+}
+
+@layer components {
+  /* Modern Button Components */
+  .btn-primary {
+    @apply bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white font-semibold py-4 px-8 rounded-2xl transition-all duration-300 shadow-lg hover:shadow-2xl transform hover:-translate-y-1 hover:scale-105 backdrop-blur-sm;
+    font-family: 'Space Grotesk', sans-serif;
+  }
+  
+  .btn-secondary {
+    @apply bg-white/80 hover:bg-white text-blue-600 font-semibold py-4 px-8 rounded-2xl border-2 border-blue-600/20 transition-all duration-300 hover:shadow-xl hover:border-blue-600/40 backdrop-blur-sm;
+    font-family: 'Space Grotesk', sans-serif;
+  }
+  
+  .btn-luxury {
+    @apply bg-gradient-to-r from-blue-500 via-cyan-500 to-blue-600 hover:from-blue-600 hover:via-cyan-600 hover:to-blue-700 text-white font-bold py-5 px-10 rounded-3xl transition-all duration-500 shadow-2xl hover:shadow-2xl transform hover:-translate-y-2 hover:scale-110 backdrop-blur-md;
+    font-family: 'Space Grotesk', sans-serif;
+    letter-spacing: -0.01em;
+  }
+  
+  /* Modern Card Components */
+  .card-luxury {
+    @apply bg-white/90 backdrop-blur-xl rounded-3xl shadow-2xl p-8 border border-white/20 hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 hover:scale-105;
+  }
+  
+  .card-pool {
+    @apply bg-gradient-to-br from-blue-50/80 to-cyan-50/80 backdrop-blur-xl rounded-3xl shadow-xl p-6 border border-blue-200/30 hover:shadow-2xl transition-all duration-500 hover:-translate-y-1;
+  }
+  
+  .card-glass {
+    @apply bg-white/95 backdrop-blur-2xl rounded-3xl shadow-2xl p-8 border border-white/20 hover:bg-white transition-all duration-500;
+  }
+  
+  /* Modern Typography */
+  .heading-hero {
+    @apply text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-black text-white leading-tight;
+    font-family: 'Space Grotesk', sans-serif;
+    letter-spacing: -0.03em;
+    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  }
+  
+  .heading-section {
+    @apply text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 leading-tight;
+    font-family: 'Space Grotesk', sans-serif;
+    letter-spacing: -0.02em;
+  }
+  
+  .heading-modern {
+    @apply text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 leading-tight;
+    font-family: 'Outfit', sans-serif;
+    letter-spacing: -0.01em;
+  }
+  
+  .text-luxury {
+    @apply text-lg md:text-xl lg:text-2xl text-gray-600 leading-relaxed;
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+  }
+  
+  .text-modern {
+    @apply text-base md:text-lg text-gray-700 leading-relaxed;
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+  }
+  
+  /* Layout */
+  .container-luxury {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+  
+  .section-spacing {
+    @apply py-20 md:py-32 lg:py-40;
+  }
+  
+  /* Modern Background Effects */
+  .bg-glass {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+  
+  .bg-gradient-modern {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  }
+  
+  .bg-gradient-luxury {
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+  }
+  
+  /* Pool-specific components */
+  .pool-gradient {
+    @apply bg-gradient-to-br from-blue-500 via-cyan-500 to-blue-600;
+  }
+  
+  .pool-gradient-modern {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+  }
+  
+  /* Modern Image Effects */
+  .image-modern {
+    @apply rounded-3xl shadow-2xl transition-all duration-500 hover:shadow-2xl hover:scale-105;
+  }
+  
+  .image-glass {
+    @apply rounded-3xl shadow-2xl backdrop-blur-sm border border-white/20;
+  }
+  
+  /* Modern Animations */
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+  
+  .animate-glow {
+    animation: glow 2s ease-in-out infinite alternate;
+  }
+  
+  .animate-slide-up {
+    animation: slideUp 0.8s ease-out;
+  }
+  
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-20px); }
+  }
+  
+  @keyframes glow {
+    from { box-shadow: 0 0 20px rgba(59, 130, 246, 0.5); }
+    to { box-shadow: 0 0 30px rgba(59, 130, 246, 0.8); }
+  }
+  
+  @keyframes slideUp {
+    from { 
+      opacity: 0; 
+      transform: translateY(30px); 
+    }
+    to { 
+      opacity: 1; 
+      transform: translateY(0); 
+    }
+  }
+  
+  /* Modern Water Effect */
+  .water-effect {
+    @apply relative overflow-hidden;
+  }
+  
+  .water-effect::before {
+    content: '';
+    @apply absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent opacity-40 transform -skew-x-12 translate-x-full;
+    animation: shimmer 4s infinite;
+  }
+  
+  @keyframes shimmer {
+    0% { transform: translateX(-100%) skewX(-12deg); }
+    100% { transform: translateX(200%) skewX(-12deg); }
+  }
+}
+
+@layer utilities {
+  .text-shadow {
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .text-shadow-lg {
+    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  }
+  
+  .backdrop-blur-luxury {
+    backdrop-filter: blur(20px);
+  }
+}

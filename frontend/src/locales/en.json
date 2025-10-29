@@ -1,0 +1,122 @@
+{
+  "navigation": {
+    "home": "Home",
+    "about": "About",
+    "projects": "Projects",
+    "contact": "Contact",
+    "getQuote": "Get Quote"
+  },
+  "hero": {
+    "title": "Swimming Pools",
+    "subtitle": "Custom Designed",
+    "description": "Plagim specializes in building custom-designed home swimming pools from all types of materials. Professionalism, safety, and personal service are the principles we have engraved on our banner.",
+    "getQuote": "Get Quote",
+    "viewProjects": "View Projects"
+  },
+  "about": {
+    "title": "About Plagim",
+    "subtitle": "Plagim Swimming Pools - Dreams Become Reality",
+    "description": "Plagim company was established in 1996 by Avner Tzadok and offers planning, construction and maintenance services for home and private swimming pools throughout the country.",
+    "story": "Since its establishment, the company has grown steadily every year and recently began developing and marketing unique technology in Israel and abroad.",
+    "values": "From the beginning, it has engraved on its banner professionalism, personal accompaniment throughout all stages of planning and construction, use of green technology that saves energy and water, use of environmentally and human-friendly materials.",
+    "yearsExperience": "Years of Experience",
+    "whyChooseUs": "Why Choose Plagim?",
+    "whyDescription": "Professionalism, safety and personal service are the principles we have engraved on our banner, from the planning stage of building a swimming pool to the stage of the small design details that make it complete.",
+    "professionalism": "Proven Professionalism",
+    "professionalismDesc": "Over 25 years of experience in building home and private swimming pools throughout the country.",
+    "personalService": "Personal Service",
+    "personalServiceDesc": "Personal accompaniment throughout all stages of planning and construction, from the initial idea to the smallest design details.",
+    "greenTechnology": "Green Technology",
+    "greenTechnologyDesc": "Use of green technology that saves energy and water, and environmentally and human-friendly materials."
+  },
+  "services": {
+    "title": "Our Services",
+    "subtitle": "We at Plagim build swimming pools using green construction, energy saving and adherence to the highest standards.",
+    "homePools": "Home Swimming Pools",
+    "homePoolsDesc": "Pools designed from all types of materials",
+    "infinityPools": "Infinity Pools",
+    "infinityPoolsDesc": "Infinity pools without edge and manufactured",
+    "poolCovers": "Pool Covers",
+    "poolCoversDesc": "Electric shutter cover for pool",
+    "swimmingSystems": "Swimming Systems",
+    "swimmingSystemsDesc": "Swimming systems against the current Binder"
+  },
+  "projects": {
+    "title": "Our Projects",
+    "subtitle": "Be impressed by a wide variety of swimming pools made from different materials such as: concrete pools, manufactured pools and more...",
+    "viewMore": "View All Projects",
+    "wantToSeeMore": "Want to see more projects?",
+    "wantToSeeMoreDesc": "Contact us to get a full gallery of our projects"
+  },
+  "contact": {
+    "title": "Contact Us",
+    "subtitle": "Ready to start your project? Contact us today for professional consultation and personalized quote",
+    "sendMessage": "Send us a message",
+    "fullName": "Full Name",
+    "phone": "Phone",
+    "email": "Email",
+    "poolType": "Requested Pool Type",
+    "message": "Message",
+    "submit": "Send Message",
+    "contactInfo": "Contact Information",
+    "phoneLabel": "Phone",
+    "phoneNumber": "073-7761900",
+    "phoneHours": "Business Hours: Sun-Thu 8:00-18:00",
+    "emailLabel": "Email",
+    "emailAddress": "plagim1@gmail.com",
+    "emailResponse": "Answered within 24 hours",
+    "addressLabel": "Office Address",
+    "address": "HaYaar 1, Kfar HaOranim 7313400",
+    "mailingAddress": "Mailing Address: HaPsaga 17, Kfar HaOranim",
+    "customerService": "Customer Service",
+    "customerServiceDesc": "Our service team is available to help you with any question or request. We are committed to providing professional and courteous service.",
+    "callNow": "Call Now",
+    "sendEmail": "Send Email"
+  },
+  "footer": {
+    "companyDescription": "Plagim company specializes in building custom-designed home swimming pools from all types of materials. Professionalism, safety and personal service are the principles we have engraved on our banner.",
+    "quickLinks": "Quick Links",
+    "services": "Services",
+    "homePools": "Home Swimming Pools",
+    "infinityPools": "Infinity Pools",
+    "poolCovers": "Pool Covers",
+    "swimmingSystems": "Swimming Systems Against Current",
+    "landscapeArchitecture": "Landscape Architecture",
+    "copyright": "All rights reserved Plagim 2024 ©",
+    "accessibility": "Accessibility Statement",
+    "terms": "Terms of Use",
+    "privacy": "Privacy Policy"
+  },
+  "cta": {
+    "readyToStart": "Ready to start your project?",
+    "readyToStartDesc": "Contact us today for professional consultation and personalized quote",
+    "contactUs": "Contact Us",
+    "callUs": "📞 073-7761900"
+  },
+  "poolTypes": {
+    "home": "Home Pool",
+    "infinity": "Infinity Pool",
+    "fiberglass": "Fiberglass Pool",
+    "concrete": "Concrete Pool",
+    "commercial": "Commercial Pool",
+    "spa": "Pool with Spa"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "cancel": "Cancel",
+    "save": "Save",
+    "edit": "Edit",
+    "delete": "Delete",
+    "close": "Close",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "search": "Search",
+    "filter": "Filter",
+    "clear": "Clear",
+    "submit": "Submit",
+    "required": "Required"
+  }
+}

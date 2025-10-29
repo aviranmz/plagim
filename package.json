@@ -1,0 +1,72 @@
+{
+  "name": "plagim",
+  "version": "1.0.0",
+  "description": "Plagim - Milano Design Week themed project management platform",
+  "private": true,
+  "workspaces": [
+    "frontend",
+    "backend"
+  ],
+  "scripts": {
+    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "dev:frontend": "npm run dev --workspace=frontend",
+    "dev:backend": "npm run dev --workspace=backend",
+    "build": "npm run build --workspace=frontend && npm run build --workspace=backend",
+    "build:frontend": "npm run build --workspace=frontend",
+    "build:backend": "npm run build --workspace=backend",
+    "lint": "npm run lint --workspace=frontend && npm run lint --workspace=backend",
+    "lint:frontend": "npm run lint --workspace=frontend",
+    "lint:backend": "npm run lint --workspace=backend",
+    "test": "npm run test --workspace=frontend && npm run test --workspace=backend",
+    "test:frontend": "npm run test --workspace=frontend",
+    "test:backend": "npm run test --workspace=backend",
+    "type-check": "npm run type-check --workspace=frontend && npm run type-check --workspace=backend",
+    "clean": "npm run clean --workspace=frontend && npm run clean --workspace=backend",
+    "start:frontend": "npm run preview --workspace=frontend",
+    "start:backend": "npm run start --workspace=backend",
+    "prepare": "husky",
+    "precommit": "npm run lint && npm run build && npm run test"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^6.21.0",
+    "@typescript-eslint/parser": "^6.21.0",
+    "concurrently": "^8.2.2",
+    "eslint": "^8.57.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.1.3",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.6",
+    "prettier": "^3.2.5",
+    "typescript": "^5.3.3"
+  },
+  "lint-staged": {
+    "frontend/**/*.{ts,tsx,js,jsx}": [
+      "npm run lint:frontend",
+      "npm run build:frontend"
+    ],
+    "backend/**/*.{ts,js}": [
+      "npm run lint:backend",
+      "npm run build:backend"
+    ],
+    "*.{json,md,yml,yaml}": [
+      "prettier --write"
+    ]
+  },
+  "engines": {
+    "node": ">=24.0.0",
+    "npm": ">=10.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aviranmizrahi/plagim.git"
+  },
+  "keywords": [
+    "project-management",
+    "milano-design-week",
+    "typescript",
+    "react",
+    "nodejs"
+  ],
+  "author": "Aviran Mizrahi",
+  "license": "MIT"
+}

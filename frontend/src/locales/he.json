@@ -1,0 +1,122 @@
+{
+  "navigation": {
+    "home": "בית",
+    "about": "אודות",
+    "projects": "פרויקטים",
+    "contact": "צור קשר",
+    "getQuote": "קבל הצעת מחיר"
+  },
+  "hero": {
+    "title": "בריכות שחייה",
+    "subtitle": "מעוצבות בהתאמה אישית",
+    "description": "חברת פלגים מתמחה בבניית בריכות שחייה ביתיות מעוצבות מכל סוגי החומרים. מקצוענות, בטיחות ולווי אישי הן התוכנות שחרטנו על דגלנו.",
+    "getQuote": "קבל הצעת מחיר",
+    "viewProjects": "צפה בפרויקטים"
+  },
+  "about": {
+    "title": "אודות פלגים",
+    "subtitle": "פלגים בריכות שחייה - חלום שהופך למציאות",
+    "description": "חברת \"פלגים\" הוקמה בשנת 1996 על ידי אבנר צדוק ומציעה שרותי תכנון, הקמה ותחזוקה של בריכות שחייה ביתיות ופרטיות בכל רחבי הארץ.",
+    "story": "מאז הקמתה, החברה גדלה בהתמדה מדי שנה ולאחרונה החלה לפתח ולשווק טכנולוגיה יחודית בארץ ובחו\"ל.",
+    "values": "מראשית דרכה חרטה על דגלה מקצוענות, לווי אישי לאורך כל שלבי התכנון וההקמה, שימוש בטכנולוגיה ירוקה החוסכת אנרגיה ומים, שימוש בחומרים ידידותיים לסביבה ולאדם.",
+    "yearsExperience": "שנות ניסיון",
+    "whyChooseUs": "למה לבחור בפלגים?",
+    "whyDescription": "מקצוענות, בטיחות ולווי אישי הן התוכנות שחרטנו על דגלנו, משלב התכנית של הקמת בריכת שחיה ועד השלב של פרטי העיצוב הקטנים העושים את שלמותה.",
+    "professionalism": "מקצוענות מוכחת",
+    "professionalismDesc": "מעל 25 שנות ניסיון בבניית בריכות שחייה ביתיות ופרטיות בכל רחבי הארץ.",
+    "personalService": "לווי אישי",
+    "personalServiceDesc": "ליווי אישי לאורך כל שלבי התכנון וההקמה, מהרעיון הראשוני ועד לפרטי העיצוב הקטנים.",
+    "greenTechnology": "טכנולוגיה ירוקה",
+    "greenTechnologyDesc": "שימוש בטכנולוגיה ירוקה החוסכת אנרגיה ומים, ובחומרים ידידותיים לסביבה ולאדם."
+  },
+  "services": {
+    "title": "השירותים שלנו",
+    "subtitle": "אנו בפלגים מקימים בריכות שחיה על-ידי שימוש בבנייה ירוקה, חיסכון באנרגיה והקפדה על הסטנדרטים הגבוהים ביותר.",
+    "homePools": "בריכות שחייה ביתיות",
+    "homePoolsDesc": "בריכות מעוצבות מכל סוגי החומרים",
+    "infinityPools": "בריכות גלישה",
+    "infinityPoolsDesc": "בריכות גלישה ללא קצה ובתועשת",
+    "poolCovers": "כיסויים לבריכות",
+    "poolCoversDesc": "כיסוי תריס חשמלי לבריכה",
+    "swimmingSystems": "מערכות שחייה",
+    "swimmingSystemsDesc": "מערכות שחייה נגד הזרם בינדר"
+  },
+  "projects": {
+    "title": "הפרויקטים שלנו",
+    "subtitle": "התרשמו ממגוון רחב של בריכות שחייה העשויות מחומרים שונים כגון: בריכות בטון, בריכות מתועשת ועוד...",
+    "viewMore": "צפה בכל הפרויקטים",
+    "wantToSeeMore": "רוצים לראות עוד פרויקטים?",
+    "wantToSeeMoreDesc": "צרו איתנו קשר לקבלת גלריה מלאה של הפרויקטים שלנו"
+  },
+  "contact": {
+    "title": "צור קשר",
+    "subtitle": "מוכנים להתחיל את הפרויקט שלכם? צרו איתנו קשר עוד היום לקבלת ייעוץ מקצועי והצעת מחיר מותאמת אישית",
+    "sendMessage": "שלחו לנו הודעה",
+    "fullName": "שם מלא",
+    "phone": "טלפון",
+    "email": "אימייל",
+    "poolType": "סוג הבריכה המבוקשת",
+    "message": "הודעה",
+    "submit": "שלח הודעה",
+    "contactInfo": "פרטי התקשרות",
+    "phoneLabel": "טלפון",
+    "phoneNumber": "073-7761900",
+    "phoneHours": "שעות פעילות: א-ה 8:00-18:00",
+    "emailLabel": "אימייל",
+    "emailAddress": "plagim1@gmail.com",
+    "emailResponse": "נענה תוך 24 שעות",
+    "addressLabel": "כתובת המשרד",
+    "address": "רחוב היער 1, כפר האורנים 7313400",
+    "mailingAddress": "כתובת למשלוח דואר: הפסגה 17, כפר האורנים",
+    "customerService": "שירות לקוחות",
+    "customerServiceDesc": "צוות השירות שלנו זמין לעזור לכם בכל שאלה או בקשה. אנו מתחייבים לספק שירות מקצועי ואדיב.",
+    "callNow": "התקשר עכשיו",
+    "sendEmail": "שלח אימייל"
+  },
+  "footer": {
+    "companyDescription": "חברת פלגים מתמחה בבניית בריכות שחייה ביתיות מעוצבות מכל סוגי החומרים. מקצוענות, בטיחות ולווי אישי הן התוכנות שחרטנו על דגלנו.",
+    "quickLinks": "קישורים מהירים",
+    "services": "שירותים",
+    "homePools": "בריכות שחייה ביתיות",
+    "infinityPools": "בריכות גלישה",
+    "poolCovers": "כיסויים לבריכות",
+    "swimmingSystems": "מערכות שחייה נגד הזרם",
+    "landscapeArchitecture": "אדריכלות נוף",
+    "copyright": "כל הזכויות שמורות פלגים 2024 ©",
+    "accessibility": "הצהרת נגישות",
+    "terms": "תנאי שימוש",
+    "privacy": "מדיניות פרטיות"
+  },
+  "cta": {
+    "readyToStart": "מוכנים להתחיל את הפרויקט שלכם?",
+    "readyToStartDesc": "צרו איתנו קשר עוד היום לקבלת ייעוץ מקצועי והצעת מחיר מותאמת אישית",
+    "contactUs": "צור קשר",
+    "callUs": "📞 073-7761900"
+  },
+  "poolTypes": {
+    "home": "בריכה ביתית",
+    "infinity": "בריכת גלישה",
+    "fiberglass": "בריכת פיברגלס",
+    "concrete": "בריכת בטון",
+    "commercial": "בריכה מסחרית",
+    "spa": "בריכה עם ספא"
+  },
+  "common": {
+    "loading": "טוען...",
+    "error": "שגיאה",
+    "success": "הצלחה",
+    "cancel": "ביטול",
+    "save": "שמור",
+    "edit": "ערוך",
+    "delete": "מחק",
+    "close": "סגור",
+    "back": "חזרה",
+    "next": "הבא",
+    "previous": "הקודם",
+    "search": "חיפוש",
+    "filter": "מסנן",
+    "clear": "נקה",
+    "submit": "שלח",
+    "required": "נדרש"
+  }
+}
