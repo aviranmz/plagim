@@ -29,8 +29,7 @@ Thumbs.db
 coverage
 .nyc_output
 
-# Build artifacts (keep dist for backend)
-frontend/dist
+# Build artifacts (frontend/dist needs to be included for serving)
 frontend/build
 
 # Documentation
