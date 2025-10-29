@@ -10,26 +10,6 @@ import dotenv from 'dotenv'
 // Import routes
 import professionalInfoRoutes from './routes/professionalInfoMock'
 
-// Database-dependent routes (only load if database is available)
-let authRoutes: any = null
-let projectRoutes: any = null
-let projectJsonbRoutes: any = null
-let contactRoutes: any = null
-let adminRoutes: any = null
-
-// Try to load database-dependent routes
-try {
-  if (process.env.DATABASE_URL) {
-    authRoutes = require('./routes/auth').default
-    projectRoutes = require('./routes/projects').default
-    projectJsonbRoutes = require('./routes/projectJsonb').default
-    contactRoutes = require('./routes/contacts').default
-    adminRoutes = require('./routes/admin').default
-  }
-} catch (error) {
-  console.log('Database routes not available:', error.message)
-}
-
 // Import middleware
 import { errorHandler } from './middleware/errorHandler'
 import { notFound } from './middleware/notFound'
@@ -107,16 +87,27 @@ app.get('/', (req, res) => {
 })
 
 // API routes
-if (authRoutes) app.use('/api/auth', authRoutes)
-if (projectRoutes) app.use('/api/projects', projectRoutes)
-if (projectJsonbRoutes) app.use('/api/projects', projectJsonbRoutes)
 app.use('/api/professional-info', professionalInfoRoutes)
-// app.use('/api/content-sections', contentSectionsRoutes) // JSONB-specific routes
-if (contactRoutes) app.use('/api/contacts', contactRoutes)
-if (adminRoutes) app.use('/api/admin', adminRoutes)
 
-// Public routes for frontend
-if (projectRoutes) app.use('/api/public/projects', projectRoutes)
+// Database-dependent routes (only load if database is available)
+if (process.env.DATABASE_URL) {
+  try {
+    const authRoutes = require('./routes/auth').default
+    const projectRoutes = require('./routes/projects').default
+    const projectJsonbRoutes = require('./routes/projectJsonb').default
+    const contactRoutes = require('./routes/contacts').default
+    const adminRoutes = require('./routes/admin').default
+    
+    app.use('/api/auth', authRoutes)
+    app.use('/api/projects', projectRoutes)
+    app.use('/api/projects', projectJsonbRoutes)
+    app.use('/api/contacts', contactRoutes)
+    app.use('/api/admin', adminRoutes)
+    app.use('/api/public/projects', projectRoutes)
+  } catch (error) {
+    console.log('Database routes not available:', error.message)
+  }
+}
 
 // Error handling middleware
 app.use(notFound)
