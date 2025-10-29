@@ -22,7 +22,6 @@ export default defineConfig({
     outDir: 'dist',
     sourcemap: true,
   },
-  define: {
-    'import.meta.env.VITE_API_URL': JSON.stringify(process.env.VITE_API_URL || 'https://plagim-production.up.railway.app/api'),
-  },
+  // API URL will be set via environment variable at build time
+  // If not set, defaults to relative /api for same-domain deployment
 })

@@ -94,17 +94,38 @@ if (process.env.DATABASE_URL) {
   }
 }
 
-// Serve static files from backend public directory
-app.use(express.static(path.join(__dirname, '../public')))
+// Serve static files - try frontend build first, then fallback to public
+const fs = require('fs')
+const frontendDistPath = path.join(__dirname, '../../frontend/dist')
+const publicPath = path.join(__dirname, '../public')
 
-// Serve the main HTML page for all non-API routes
-app.get('*', (req, res) => {
-  // Don't serve HTML for API routes
-  if (req.path.startsWith('/api/')) {
-    return notFound(req, res)
-  }
-  res.sendFile(path.join(__dirname, '../public/index.html'))
-})
+// Check if frontend build exists (production)
+if (fs.existsSync(frontendDistPath) && fs.existsSync(path.join(frontendDistPath, 'index.html'))) {
+  console.log('📦 Serving frontend from:', frontendDistPath)
+  app.use(express.static(frontendDistPath))
+  
+  // Serve React app - catch-all handler for client-side routing
+  app.get('*', (req, res) => {
+    // Don't serve HTML for API routes
+    if (req.path.startsWith('/api/')) {
+      return notFound(req, res)
+    }
+    res.sendFile(path.join(frontendDistPath, 'index.html'))
+  })
+} else if (fs.existsSync(publicPath) && fs.existsSync(path.join(publicPath, 'index.html'))) {
+  // Fallback to public directory
+  console.log('📦 Serving static files from:', publicPath)
+  app.use(express.static(publicPath))
+  
+  app.get('*', (req, res) => {
+    if (req.path.startsWith('/api/')) {
+      return notFound(req, res)
+    }
+    res.sendFile(path.join(publicPath, 'index.html'))
+  })
+} else {
+  console.log('⚠️  No frontend build found, serving API only')
+}
 
 // Error handling middleware
 app.use(notFound)
