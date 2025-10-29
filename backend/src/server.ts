@@ -100,16 +100,25 @@ if (process.env.DATABASE_URL) {
 }
 
 // Serve static files from frontend build
-app.use(express.static(path.join(__dirname, '../../frontend/dist')))
+const frontendDistPath = path.join(__dirname, '../../frontend/dist')
+const frontendIndexPath = path.join(frontendDistPath, 'index.html')
 
-// Handle React routing - serve index.html for all non-API routes
-app.get('*', (req, res) => {
-  // Don't serve index.html for API routes
-  if (req.path.startsWith('/api/')) {
-    return notFound(req, res)
-  }
-  res.sendFile(path.join(__dirname, '../../frontend/dist/index.html'))
-})
+// Check if frontend build exists
+const fs = require('fs')
+if (fs.existsSync(frontendDistPath)) {
+  app.use(express.static(frontendDistPath))
+  
+  // Handle React routing - serve index.html for all non-API routes
+  app.get('*', (req, res) => {
+    // Don't serve index.html for API routes
+    if (req.path.startsWith('/api/')) {
+      return notFound(req, res)
+    }
+    res.sendFile(frontendIndexPath)
+  })
+} else {
+  console.log('Frontend build not found, serving API only')
+}
 
 // Error handling middleware
 app.use(notFound)
