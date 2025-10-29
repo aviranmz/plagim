@@ -105,7 +105,11 @@ const frontendIndexPath = path.join(frontendDistPath, 'index.html')
 
 // Check if frontend build exists
 const fs = require('fs')
+console.log('Looking for frontend build at:', frontendDistPath)
+console.log('Frontend build exists:', fs.existsSync(frontendDistPath))
+
 if (fs.existsSync(frontendDistPath)) {
+  console.log('Serving frontend static files from:', frontendDistPath)
   app.use(express.static(frontendDistPath))
   
   // Handle React routing - serve index.html for all non-API routes
@@ -114,6 +118,7 @@ if (fs.existsSync(frontendDistPath)) {
     if (req.path.startsWith('/api/')) {
       return notFound(req, res)
     }
+    console.log('Serving index.html for route:', req.path)
     res.sendFile(frontendIndexPath)
   })
 } else {
