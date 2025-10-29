@@ -71,11 +71,6 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'OK', timestamp: new Date().toISOString() })
 })
 
-// Root route - basic info about the API
-app.get('/', (req, res) => {
-  res.json({ message: 'Plagim API is running' })
-})
-
 // API routes
 app.use('/api/professional-info', professionalInfoRoutes)
 
@@ -99,31 +94,17 @@ if (process.env.DATABASE_URL) {
   }
 }
 
-// Serve static files from frontend build
-const frontendDistPath = path.join(__dirname, '../../frontend/dist')
-const frontendIndexPath = path.join(frontendDistPath, 'index.html')
+// Serve static files from backend public directory
+app.use(express.static(path.join(__dirname, '../public')))
 
-// Check if frontend build exists
-const fs = require('fs')
-console.log('Looking for frontend build at:', frontendDistPath)
-console.log('Frontend build exists:', fs.existsSync(frontendDistPath))
-
-if (fs.existsSync(frontendDistPath)) {
-  console.log('Serving frontend static files from:', frontendDistPath)
-  app.use(express.static(frontendDistPath))
-  
-  // Handle React routing - serve index.html for all non-API routes
-  app.get('*', (req, res) => {
-    // Don't serve index.html for API routes
-    if (req.path.startsWith('/api/')) {
-      return notFound(req, res)
-    }
-    console.log('Serving index.html for route:', req.path)
-    res.sendFile(frontendIndexPath)
-  })
-} else {
-  console.log('Frontend build not found, serving API only')
-}
+// Serve the main HTML page for all non-API routes
+app.get('*', (req, res) => {
+  // Don't serve HTML for API routes
+  if (req.path.startsWith('/api/')) {
+    return notFound(req, res)
+  }
+  res.sendFile(path.join(__dirname, '../public/index.html'))
+})
 
 // Error handling middleware
 app.use(notFound)

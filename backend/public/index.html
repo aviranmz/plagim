@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plagim Swimming Pools</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .container {
+            text-align: center;
+            color: white;
+            max-width: 600px;
+            padding: 2rem;
+        }
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+        p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+        .api-info {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-top: 2rem;
+        }
+        .api-info h2 {
+            margin-top: 0;
+            font-size: 1.5rem;
+        }
+        .api-info ul {
+            list-style: none;
+            padding: 0;
+        }
+        .api-info li {
+            margin: 0.5rem 0;
+            font-size: 1rem;
+        }
+        .api-info a {
+            color: #fff;
+            text-decoration: none;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .api-info a:hover {
+            border-bottom-color: #fff;
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h1>🏊‍♂️ Plagim Swimming Pools</h1>
+        <p>Your luxury swimming pool experience starts here</p>
+        
+        <div class="api-info">
+            <h2>API Status</h2>
+            <p>Backend API is running successfully!</p>
+            <ul>
+                <li><a href="/health">Health Check</a></li>
+                <li><a href="/api/professional-info">Professional Info</a></li>
+                <li><a href="/api/professional-info/maintenance">Pool Maintenance</a></li>
+                <li><a href="/api/professional-info/safety">Pool Safety</a></li>
+            </ul>
+        </div>
+        
+        <div class="api-info">
+            <h2>Next Steps</h2>
+            <p>The frontend will be deployed separately to provide the full website experience.</p>
+        </div>
+    </div>
+</body>
+</html>
