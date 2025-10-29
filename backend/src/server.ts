@@ -6,6 +6,7 @@ import morgan from 'morgan'
 import cookieParser from 'cookie-parser'
 import rateLimit from 'express-rate-limit'
 import dotenv from 'dotenv'
+import path from 'path'
 
 // Import routes
 import professionalInfoRoutes from './routes/professionalInfoMock'
@@ -97,6 +98,18 @@ if (process.env.DATABASE_URL) {
     console.log('Database routes not available:', error.message)
   }
 }
+
+// Serve static files from frontend build
+app.use(express.static(path.join(__dirname, '../../frontend/dist')))
+
+// Handle React routing - serve index.html for all non-API routes
+app.get('*', (req, res) => {
+  // Don't serve index.html for API routes
+  if (req.path.startsWith('/api/')) {
+    return notFound(req, res)
+  }
+  res.sendFile(path.join(__dirname, '../../frontend/dist/index.html'))
+})
 
 // Error handling middleware
 app.use(notFound)
