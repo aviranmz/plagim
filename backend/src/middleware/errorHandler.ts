@@ -28,8 +28,3 @@ export const errorHandler = (err: Error, req: Request, res: Response, next: Next
   })
 }
 
-export const notFound = (req: Request, res: Response) => {
-  res.status(404).json({
-    error: `Route ${req.originalUrl} not found`
-  })
-}

@@ -76,6 +76,22 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'OK', timestamp: new Date().toISOString() })
 })
 
+// Root route - basic info about the API
+app.get('/', (req, res) => {
+  res.json({
+    message: 'Plagim Swimming Pools API',
+    version: '1.0.0',
+    status: 'running',
+    endpoints: {
+      health: '/health',
+      api: '/api',
+      projects: '/api/projects',
+      professionalInfo: '/api/professional-info',
+      contacts: '/api/contacts'
+    }
+  })
+})
+
 // API routes
 app.use('/api/auth', authRoutes)
 app.use('/api/projects', projectRoutes)
