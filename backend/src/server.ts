@@ -164,6 +164,19 @@ if (frontendDistPath) {
   console.log('Search paths checked:', possibleFrontendPaths)
   console.log('Current working directory:', process.cwd())
   console.log('__dirname:', __dirname)
+  
+  // Fallback: serve a simple message for root route
+  app.get('/', (req, res) => {
+    res.json({
+      message: 'Plagim Backend API',
+      status: 'running',
+      frontend: 'Frontend build not found - check Railway build logs',
+      api: {
+        health: '/health',
+        professionalInfo: '/api/professional-info'
+      }
+    })
+  })
 }
 
 // Error handling middleware
