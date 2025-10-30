@@ -153,15 +153,23 @@ app.get('/images/*', (req, res, next) => {
     path.join(process.cwd(), 'backend/public/images', imagePath),
     path.join(process.cwd(), 'frontend/public/images', imagePath),
     path.join(process.cwd(), 'frontend/dist/images', imagePath),
+    path.join(__dirname, '../../frontend/public/images', imagePath),
+    path.join(__dirname, '../../../frontend/public/images', imagePath),
   ]
   
+  console.log(`🔍 Looking for image: ${imagePath}`)
+  console.log(`🔍 Checking paths:`, possiblePaths)
+  
   for (const fullPath of possiblePaths) {
+    console.log(`🔍 Checking: ${fullPath} - exists: ${fs.existsSync(fullPath)}`)
     if (fs.existsSync(fullPath)) {
+      console.log(`✅ Found image at: ${fullPath}`)
       return res.sendFile(fullPath)
     }
   }
   
-  res.status(404).json({ error: `Image ${imagePath} not found` })
+  console.log(`❌ Image not found: ${imagePath}`)
+  res.status(404).json({ error: `Image ${imagePath} not found`, checkedPaths: possiblePaths })
 })
 
 // Database-dependent routes (only load if database is available)
