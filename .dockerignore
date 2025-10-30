@@ -1,0 +1,10 @@
+node_modules
+**/node_modules
+.git
+.gitignore
+frontend/dist
+backend/dist
+npm-debug.log
+**/.cache
+**/.vite
+**/.turbo
