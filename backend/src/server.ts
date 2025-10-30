@@ -151,8 +151,14 @@ app.get('/test-images', (req, res) => {
   res.json({ message: 'Image route test', timestamp: new Date().toISOString() })
 })
 
+// Test route to verify image pattern matching
+app.get('/test-image-pattern', (req, res) => {
+  res.json({ message: 'Image pattern test', timestamp: new Date().toISOString() })
+})
+
 // Direct image serving route (available regardless of frontend setup)
 app.get('/images/*', (req, res, next) => {
+  console.log('🎯 Image route hit!', req.path)
   const imagePath = req.path.replace('/images/', '')
   const possiblePaths = [
     path.join(process.cwd(), 'backend/public/images', imagePath),
