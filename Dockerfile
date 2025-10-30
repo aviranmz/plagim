@@ -15,11 +15,7 @@ COPY package.json package-lock.json ./
 COPY frontend/package.json frontend/package.json
 COPY backend/package.json backend/package.json
 
-# Install root (if needed by workspaces) and workspace deps
-RUN npm ci --ignore-scripts
-WORKDIR /app/frontend
-RUN npm ci --include=dev --ignore-scripts
-WORKDIR /app/backend
+# Install all workspace deps in one shot (uses npm workspaces)
 RUN npm ci --include=dev --ignore-scripts
 
 # Build frontend and copy images into backend/public/images
