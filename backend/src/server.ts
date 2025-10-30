@@ -209,7 +209,8 @@ if (process.env.DATABASE_URL) {
       app.use('/api/public/projects', projectsModule.default)
     })
     .catch((error) => {
-      console.log('Database routes not available:', error.message)
+      const msg = error instanceof Error ? error.message : String(error)
+      console.log('Database routes not available:', msg)
     })
 }
 

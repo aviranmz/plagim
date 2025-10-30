@@ -82,6 +82,9 @@ router.get('/', authenticateToken, requireAdmin, async (req: AuthRequest, res): 
 router.get('/:id', authenticateToken, requireAdmin, async (req: AuthRequest, res): Promise<void> => {
   try {
     const projectId = parseInt(req.params.id)
+    if (isNaN(projectId)) {
+      return res.status(400).json({ error: 'Invalid project ID' })
+    }
     
     const project = await db.select({
       id: projects.id,
@@ -118,7 +121,8 @@ router.get('/:id', authenticateToken, requireAdmin, async (req: AuthRequest, res
     .limit(1)
 
     if (project.length === 0) {
-      return res.status(404).json({ error: 'Project not found' })
+      res.status(404).json({ error: 'Project not found' })
+      return
     }
 
     // Get project updates
@@ -169,7 +173,8 @@ router.post('/', authenticateToken, requireAdmin, async (req: AuthRequest, res):
     } = req.body
 
     if (!title) {
-      return res.status(400).json({ error: 'Title is required' })
+      res.status(400).json({ error: 'Title is required' })
+      return
     }
 
     // Generate slug from title
@@ -208,6 +213,9 @@ router.post('/', authenticateToken, requireAdmin, async (req: AuthRequest, res):
 router.put('/:id', authenticateToken, requireAdmin, async (req: AuthRequest, res): Promise<void> => {
   try {
     const projectId = parseInt(req.params.id)
+    if (isNaN(projectId)) {
+      return res.status(400).json({ error: 'Invalid project ID' })
+    }
     const updateData = req.body
 
     // Remove fields that shouldn't be updated directly
@@ -232,7 +240,8 @@ router.put('/:id', authenticateToken, requireAdmin, async (req: AuthRequest, res
       .returning()
 
     if (updatedProject.length === 0) {
-      return res.status(404).json({ error: 'Project not found' })
+      res.status(404).json({ error: 'Project not found' })
+      return
     }
 
     res.json(updatedProject[0])
@@ -246,6 +255,9 @@ router.put('/:id', authenticateToken, requireAdmin, async (req: AuthRequest, res
 router.delete('/:id', authenticateToken, requireAdmin, async (req: AuthRequest, res): Promise<void> => {
   try {
     const projectId = parseInt(req.params.id)
+    if (isNaN(projectId)) {
+      return res.status(400).json({ error: 'Invalid project ID' })
+    }
 
     // Delete project updates first
     await db.delete(projectUpdates).where(eq(projectUpdates.projectId, projectId))
@@ -256,7 +268,8 @@ router.delete('/:id', authenticateToken, requireAdmin, async (req: AuthRequest, 
       .returning()
 
     if (deletedProject.length === 0) {
-      return res.status(404).json({ error: 'Project not found' })
+      res.status(404).json({ error: 'Project not found' })
+      return
     }
 
     res.json({ message: 'Project deleted successfully' })

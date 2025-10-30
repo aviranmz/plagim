@@ -36,12 +36,13 @@ router.get('/', async (req: Request, res: Response): Promise<void> => {
 router.get('/:slug', async (req: Request, res: Response): Promise<void> => {
   try {
     const { slug } = req.params
+    const slugParam = typeof slug === 'string' ? slug : ''
 
     const page = await db
       .select()
       .from(professionalInfoPages)
       .where(and(
-        eq(professionalInfoPages.slug, slug),
+        eq(professionalInfoPages.slug, slugParam),
         eq(professionalInfoPages.isActive, true)
       ))
       .limit(1)

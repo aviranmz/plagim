@@ -108,13 +108,13 @@ export interface ProfessionalInfoPage {
   slug: string
   title: string
   titleEn: string
-  description?: string
-  descriptionEn?: string
+  description?: string | null
+  descriptionEn?: string | null
   content: ContentSection[]
-  metaTitle?: string
-  metaTitleEn?: string
-  metaDescription?: string
-  metaDescriptionEn?: string
+  metaTitle?: string | null
+  metaTitleEn?: string | null
+  metaDescription?: string | null
+  metaDescriptionEn?: string | null
   isActive?: boolean
   sortOrder?: number
   categories?: ContentCategory[]

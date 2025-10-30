@@ -18,14 +18,17 @@ COPY backend/package.json backend/package.json
 # Install all workspace deps in one shot (uses npm workspaces)
 RUN npm ci --include=dev --ignore-scripts
 
-# Build frontend and copy images into backend/public/images
+# Copy backend first so image copy can target existing folder, then build frontend
+WORKDIR /app/backend
+COPY backend .
+
+# Build frontend and copy images into backend/public/images (backend now exists)
 WORKDIR /app/frontend
 COPY frontend .
 RUN npm run build && node scripts/copy-images.js
 
-# Build backend
+# Build backend (tsc)
 WORKDIR /app/backend
-COPY backend .
 RUN npm run build || true
 
 # Runtime image
@@ -38,8 +41,8 @@ COPY --from=base /app/backend/dist ./dist
 COPY --from=base /app/backend/public ./public
 COPY --from=base /app/backend/package.json ./package.json
 
-# Install only production deps
-RUN npm ci --omit=dev
+# Install only production deps (no backend lockfile available)
+RUN npm install --omit=dev --no-audit --no-fund
 
 EXPOSE 9045
 CMD ["node", "dist/server.js"]

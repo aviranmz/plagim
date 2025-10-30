@@ -164,6 +164,10 @@ router.post('/users', authenticateToken, requireAdmin, async (req: AuthRequest, 
 router.put('/users/:id', authenticateToken, requireAdmin, async (req: AuthRequest, res): Promise<void> => {
   try {
     const userId = parseInt(req.params.id)
+    if (isNaN(userId)) {
+      res.status(400).json({ error: 'Invalid user ID' })
+      return
+    }
     const { email, name, role, isActive } = req.body
 
     const updateData: any = {
