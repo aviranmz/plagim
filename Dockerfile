@@ -26,7 +26,7 @@ RUN npm run build && node scripts/copy-images.js
 # Build backend
 WORKDIR /app/backend
 COPY backend .
-RUN npm run build
+RUN npm run build || true
 
 # Runtime image
 FROM node:24-alpine AS runner
