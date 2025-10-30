@@ -427,6 +427,7 @@ app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`)
   console.log(`📊 Health check: http://localhost:${PORT}/health`)
   console.log(`🔗 API base URL: http://localhost:${PORT}/api`)
+  console.log(`🖼️  Images available at: http://localhost:${PORT}/images/`)
 })
 
 export default app
