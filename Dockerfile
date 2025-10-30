@@ -41,6 +41,9 @@ COPY --from=base /app/backend/dist ./dist
 COPY --from=base /app/backend/public ./public
 COPY --from=base /app/backend/package.json ./package.json
 
+# Copy frontend build (server looks for it at ../frontend/dist)
+COPY --from=base /app/frontend/dist ../frontend/dist
+
 # Install only production deps (no backend lockfile available)
 RUN npm install --omit=dev --no-audit --no-fund
 
