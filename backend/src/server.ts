@@ -327,13 +327,18 @@ if (frontendDistPath) {
       break
     }
   }
-  if (resolvedImagesRoot) {
-    console.log('📸 Serving images from:', resolvedImagesRoot)
-    app.use('/images', express.static(resolvedImagesRoot, {
-      maxAge: '1y',
-      etag: true,
-      lastModified: true,
-    }))
+  // Mount all discovered image roots under /images (first-match wins)
+  const imageRootsToMount = imageRootCandidates.filter((p) => fs.existsSync(p))
+  if (imageRootsToMount.length > 0) {
+    imageRootsToMount.forEach((root) => {
+      console.log('📸 Mounting /images from:', root)
+      app.use('/images', express.static(root, {
+        maxAge: '1y',
+        etag: true,
+        lastModified: true,
+        fallthrough: true,
+      }))
+    })
   } else {
     console.log('⚠️  No images directory found at any known location')
   }
