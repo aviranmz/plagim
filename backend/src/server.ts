@@ -313,6 +313,10 @@ if (frontendDistPath) {
     if (req.path.startsWith('/api/')) {
       return next()
     }
+    // Skip test routes
+    if (req.path.startsWith('/test-')) {
+      return next()
+    }
     // Skip static asset requests (they should be handled by express.static above)
     // If they reach here, they don't exist - pass to 404 handler
     if (req.path.startsWith('/assets/') || 
