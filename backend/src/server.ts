@@ -162,7 +162,7 @@ app.get('/test-image', (req, res) => {
 })
 
 // Direct image serving route (available regardless of frontend setup)
-app.get('/images/*', (req, res, next) => {
+app.get('/images/*', (req, res, _next) => {
   console.log('🎯 Image route hit!', req.path)
   const imagePath = req.path.replace('/images/', '')
   const possiblePaths = [
@@ -320,13 +320,6 @@ if (frontendDistPath) {
     path.join(process.cwd(), 'backend/public/images'), // Railway/Nixpacks: /app/backend/public/images
     path.join(process.cwd(), 'public/images'),         // Fallback
   ]
-  let resolvedImagesRoot: string | null = null
-  for (const candidate of imageRootCandidates) {
-    if (fs.existsSync(candidate)) {
-      resolvedImagesRoot = candidate
-      break
-    }
-  }
   // Mount all discovered image roots under /images (first-match wins)
   const imageRootsToMount = imageRootCandidates.filter((p) => fs.existsSync(p))
   if (imageRootsToMount.length > 0) {

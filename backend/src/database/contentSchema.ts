@@ -1,4 +1,4 @@
-import { pgTable, serial, text, timestamp, boolean, jsonb, integer } from 'drizzle-orm/pg-core'
+import { pgTable, serial, text, timestamp, boolean, jsonb } from 'drizzle-orm/pg-core'
 
 // Professional Info Pages Content
 export const professionalInfoPages = pgTable('professional_info_pages', {

@@ -1,7 +1,7 @@
 import express from 'express'
 import { eq, sql } from 'drizzle-orm'
 import { db } from '../database'
-import { projects, projectUpdates } from '../database/schema'
+import { projects } from '../database/schema'
 import { authenticateToken, requireAdmin, AuthRequest } from '../middleware/auth'
 import { 
   ProjectDataManager, 
@@ -11,7 +11,6 @@ import {
 import type { 
   PoolSpecifications, 
   ProjectImages, 
-  ProjectDocuments, 
   ProjectNotes 
 } from '../types/project'
 
@@ -437,7 +436,7 @@ router.post('/search', authenticateToken, requireAdmin, async (req: AuthRequest,
   try {
     const { poolType, equipment, waterFeatures, hasIssues, progressRange } = req.body
 
-    let whereConditions = []
+    const whereConditions: any[] = []
 
     // Search by pool type in specifications
     if (poolType) {

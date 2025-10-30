@@ -2,7 +2,7 @@ import { Router, Request, Response } from 'express'
 import { authenticateToken, requireAdmin } from '../middleware/auth'
 import { db } from '../database/connection'
 import { contentSections } from '../database/contentSchema'
-import { eq, and, desc, asc } from 'drizzle-orm'
+import { eq, and, asc } from 'drizzle-orm'
 import type { ContentSection, ContentSectionResponse, ContentSectionsResponse } from '../types/content'
 
 const router = Router()

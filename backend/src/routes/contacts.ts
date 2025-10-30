@@ -46,7 +46,7 @@ router.get('/', authenticateToken, requireAdmin, async (req: AuthRequest, res): 
     const { page = 1, limit = 10, status, search } = req.query
     const offset = (Number(page) - 1) * Number(limit)
 
-    let whereConditions = []
+    const whereConditions: any[] = []
     
     if (status) {
       whereConditions.push(eq(contacts.status, status as string))

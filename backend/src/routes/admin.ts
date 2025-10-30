@@ -149,8 +149,9 @@ router.post('/users', authenticateToken, requireAdmin, async (req: AuthRequest, 
       res.status(500).json({ error: 'Failed to create user' })
       return
     }
-    
-    const { password: _, ...userResponse } = newUserData
+
+    const userResponse = { ...newUserData }
+    delete (userResponse as any).password
 
     res.status(201).json(userResponse)
   } catch (error) {
@@ -184,7 +185,8 @@ router.put('/users/:id', authenticateToken, requireAdmin, async (req: AuthReques
     }
 
     // Remove password from response
-    const { password: _, ...userResponse } = updatedUser[0]
+    const userResponse = { ...updatedUser[0] }
+    delete (userResponse as any).password
 
     res.json(userResponse)
   } catch (error) {

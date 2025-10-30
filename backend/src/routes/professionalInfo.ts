@@ -1,9 +1,9 @@
 import { Router, Request, Response } from 'express'
 import { authenticateToken, requireAdmin } from '../middleware/auth'
 import { db } from '../database/connection'
-import { professionalInfoPages, contentSections, contentMedia, contentCategories, contentTags, pageTags, pageCategories } from '../database/contentSchema'
-import { eq, and, desc, asc } from 'drizzle-orm'
-import type { ProfessionalInfoPage, ContentSection, ProfessionalInfoPageResponse, ProfessionalInfoPagesResponse, ContentSectionResponse, ContentSectionsResponse } from '../types/content'
+import { professionalInfoPages, contentSections } from '../database/contentSchema'
+import { eq, and, asc } from 'drizzle-orm'
+import type { ProfessionalInfoPage, ContentSection, ProfessionalInfoPageResponse, ProfessionalInfoPagesResponse } from '../types/content'
 
 const router = Router()
 
