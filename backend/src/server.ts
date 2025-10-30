@@ -15,11 +15,11 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
 // Import routes
-import professionalInfoRoutes from './routes/professionalInfoMock'
+import professionalInfoRoutes from './routes/professionalInfoMock.js'
 
 // Import middleware
-import { errorHandler } from './middleware/errorHandler'
-import { notFound } from './middleware/notFound'
+import { errorHandler } from './middleware/errorHandler.js'
+import { notFound } from './middleware/notFound.js'
 
 // Load environment variables
 dotenv.config()
@@ -194,11 +194,11 @@ app.get('/images/*', (req, res, _next) => {
 if (process.env.DATABASE_URL) {
   // Use dynamic imports for routes that depend on database
   Promise.all([
-    import('./routes/auth'),
-    import('./routes/projects'),
-    import('./routes/projectJsonb'),
-    import('./routes/contacts'),
-    import('./routes/admin')
+    import('./routes/auth.js'),
+    import('./routes/projects.js'),
+    import('./routes/projectJsonb.js'),
+    import('./routes/contacts.js'),
+    import('./routes/admin.js')
   ])
     .then(([authModule, projectsModule, projectJsonbModule, contactsModule, adminModule]) => {
       app.use('/api/auth', authModule.default)
