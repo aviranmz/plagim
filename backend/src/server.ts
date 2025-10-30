@@ -162,6 +162,8 @@ app.get('/images/*', (req, res, next) => {
   const imagePath = req.path.replace('/images/', '')
   const possiblePaths = [
     path.join(process.cwd(), 'backend/public/images', imagePath),
+    path.join(process.cwd(), 'public/images', imagePath),
+    path.join(__dirname, '../public/images', imagePath),
     path.join(process.cwd(), 'frontend/public/images', imagePath),
     path.join(process.cwd(), 'frontend/dist/images', imagePath),
     path.join(__dirname, '../../frontend/public/images', imagePath),
