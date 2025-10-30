@@ -146,32 +146,6 @@ app.get('/api/debug/static-files', (req, res) => {
 // API routes
 app.use('/api/professional-info', professionalInfoRoutes)
 
-// Direct image serving route (fallback)
-app.get('/images/*', (req, res, next) => {
-  const imagePath = req.path.replace('/images/', '')
-  const possiblePaths = [
-    path.join(process.cwd(), 'backend/public/images', imagePath),
-    path.join(process.cwd(), 'frontend/public/images', imagePath),
-    path.join(process.cwd(), 'frontend/dist/images', imagePath),
-    path.join(__dirname, '../../frontend/public/images', imagePath),
-    path.join(__dirname, '../../../frontend/public/images', imagePath),
-  ]
-  
-  console.log(`🔍 Looking for image: ${imagePath}`)
-  console.log(`🔍 Checking paths:`, possiblePaths)
-  
-  for (const fullPath of possiblePaths) {
-    console.log(`🔍 Checking: ${fullPath} - exists: ${fs.existsSync(fullPath)}`)
-    if (fs.existsSync(fullPath)) {
-      console.log(`✅ Found image at: ${fullPath}`)
-      return res.sendFile(fullPath)
-    }
-  }
-  
-  console.log(`❌ Image not found: ${imagePath}`)
-  res.status(404).json({ error: `Image ${imagePath} not found`, checkedPaths: possiblePaths })
-})
-
 // Database-dependent routes (only load if database is available)
 if (process.env.DATABASE_URL) {
   // Use dynamic imports for routes that depend on database
@@ -321,6 +295,32 @@ if (frontendDistPath) {
     }))
   }
   
+  // Direct image serving route (fallback for missing images)
+  app.get('/images/*', (req, res, next) => {
+    const imagePath = req.path.replace('/images/', '')
+    const possiblePaths = [
+      path.join(process.cwd(), 'backend/public/images', imagePath),
+      path.join(process.cwd(), 'frontend/public/images', imagePath),
+      path.join(process.cwd(), 'frontend/dist/images', imagePath),
+      path.join(__dirname, '../../frontend/public/images', imagePath),
+      path.join(__dirname, '../../../frontend/public/images', imagePath),
+    ]
+    
+    console.log(`🔍 Looking for image: ${imagePath}`)
+    console.log(`🔍 Checking paths:`, possiblePaths)
+    
+    for (const fullPath of possiblePaths) {
+      console.log(`🔍 Checking: ${fullPath} - exists: ${fs.existsSync(fullPath)}`)
+      if (fs.existsSync(fullPath)) {
+        console.log(`✅ Found image at: ${fullPath}`)
+        return res.sendFile(fullPath)
+      }
+    }
+    
+    console.log(`❌ Image not found: ${imagePath}`)
+    res.status(404).json({ error: `Image ${imagePath} not found`, checkedPaths: possiblePaths })
+  })
+
   // Serve React app - catch-all handler for client-side routing
   // This should be last, AFTER static file serving
   app.get('*', (req, res, next) => {
