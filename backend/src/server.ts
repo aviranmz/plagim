@@ -310,7 +310,6 @@ if (frontendDistPath) {
   
   // Remove images from frontend dist so express.static doesn't serve them
   // We'll serve images from backend/public/images instead
-  const imagesDistPath = path.join(frontendDistPath, 'images')
   if (fs.existsSync(imagesDistPath)) {
     console.log('🗑️  Removing images from frontend dist to prevent express.static conflicts')
     fs.rmSync(imagesDistPath, { recursive: true, force: true })
