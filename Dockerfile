@@ -2,7 +2,10 @@
 
 FROM node:24-alpine AS base
 WORKDIR /app
-ENV NODE_ENV=production
+ENV NODE_ENV=production \
+    HUSKY=0 \
+    NPM_CONFIG_FUND=false \
+    NPM_CONFIG_AUDIT=false
 
 # OS deps for native modules like sharp
 RUN apk add --no-cache libc6-compat
@@ -13,9 +16,11 @@ COPY frontend/package.json frontend/package.json
 COPY backend/package.json backend/package.json
 
 # Install root (if needed by workspaces) and workspace deps
-RUN npm ci
-WORKDIR /app/frontend && npm ci
-WORKDIR /app/backend && npm ci
+RUN npm ci --ignore-scripts
+WORKDIR /app/frontend
+RUN npm ci --ignore-scripts
+WORKDIR /app/backend
+RUN npm ci --ignore-scripts
 
 # Build frontend and copy images into backend/public/images
 WORKDIR /app/frontend
