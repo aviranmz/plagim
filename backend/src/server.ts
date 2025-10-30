@@ -201,12 +201,44 @@ for (const testPath of possiblePublicPaths) {
 if (frontendDistPath) {
   console.log('📦 Serving frontend from:', frontendDistPath)
   
-  // Check if images folder exists, if not, try to serve from source
+  // Check if images folder exists, if not, try to copy from source
   const imagesDistPath = path.join(frontendDistPath, 'images')
-  const possibleImagePaths = [
-    imagesDistPath,
+  const imagesSourcePaths = [
     path.join(process.cwd(), 'frontend/public/images'),
     path.join(__dirname, '../../frontend/public/images'),
+    path.join(process.cwd(), '../frontend/public/images'),
+  ]
+  
+  // If images don't exist in dist, try to copy them from source
+  if (!fs.existsSync(imagesDistPath)) {
+    console.log('⚠️  Images folder not found in dist, attempting to copy from source...')
+    for (const sourcePath of imagesSourcePaths) {
+      if (fs.existsSync(sourcePath) && fs.readdirSync(sourcePath).length > 0) {
+        try {
+          if (!fs.existsSync(imagesDistPath)) {
+            fs.mkdirSync(imagesDistPath, { recursive: true })
+          }
+          const files = fs.readdirSync(sourcePath)
+          files.forEach(file => {
+            const srcFile = path.join(sourcePath, file)
+            const destFile = path.join(imagesDistPath, file)
+            if (!fs.existsSync(destFile)) {
+              fs.copyFileSync(srcFile, destFile)
+            }
+          })
+          console.log(`✅ Copied ${files.length} images from ${sourcePath} to ${imagesDistPath}`)
+          break
+        } catch (error) {
+          console.log(`❌ Failed to copy images from ${sourcePath}:`, error.message)
+        }
+      }
+    }
+  }
+  
+  // Check multiple possible paths for serving images
+  const possibleImagePaths = [
+    imagesDistPath,
+    ...imagesSourcePaths,
     path.join(process.cwd(), 'public/images'),
   ]
   
