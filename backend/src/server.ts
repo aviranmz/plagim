@@ -156,6 +156,17 @@ app.get('/test-image-pattern', (req, res) => {
   res.json({ message: 'Image pattern test', timestamp: new Date().toISOString() })
 })
 
+// Test route to serve an image directly
+app.get('/test-image', (req, res) => {
+  const imagePath = path.join(process.cwd(), 'public/images/1-14.jpg')
+  console.log('🎯 Test image path:', imagePath, 'exists:', fs.existsSync(imagePath))
+  if (fs.existsSync(imagePath)) {
+    res.sendFile(imagePath)
+  } else {
+    res.json({ error: 'Image not found', path: imagePath })
+  }
+})
+
 // Direct image serving route (available regardless of frontend setup)
 app.get('/images/*', (req, res, next) => {
   console.log('🎯 Image route hit!', req.path)
