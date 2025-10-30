@@ -18,9 +18,9 @@ COPY backend/package.json backend/package.json
 # Install root (if needed by workspaces) and workspace deps
 RUN npm ci --ignore-scripts
 WORKDIR /app/frontend
-RUN npm ci --ignore-scripts
+RUN npm ci
 WORKDIR /app/backend
-RUN npm ci --ignore-scripts
+RUN npm ci
 
 # Build frontend and copy images into backend/public/images
 WORKDIR /app/frontend
