@@ -272,28 +272,8 @@ if (frontendDistPath) {
     index: false, // Don't serve index.html for directories, only explicit requests
   }))
   
-  // Serve images from wherever they're found
-  if (imagesPath) {
-    console.log('📸 Serving images from:', imagesPath)
-    app.use('/images', express.static(imagesPath, {
-      maxAge: '1y',
-      etag: true,
-      lastModified: true,
-    }))
-  } else {
-    console.log('⚠️  Images folder not found in any of these locations:', possibleImagePaths)
-  }
-  
-  // Additional fallback: serve images directly from source if dist is empty
-  const sourceImagesPath = path.join(process.cwd(), 'frontend/public/images')
-  if (fs.existsSync(sourceImagesPath) && fs.readdirSync(sourceImagesPath).length > 0) {
-    console.log('📸 Adding fallback images route from source:', sourceImagesPath)
-    app.use('/images', express.static(sourceImagesPath, {
-      maxAge: '1y',
-      etag: true,
-      lastModified: true,
-    }))
-  }
+  // Note: Images will be handled by the custom /images/* route below
+  // instead of using express.static to ensure we can log and debug
   
   // Direct image serving route (fallback for missing images)
   app.get('/images/*', (req, res, next) => {
