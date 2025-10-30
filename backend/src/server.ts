@@ -161,9 +161,9 @@ app.get('/images/*', (req, res, next) => {
   console.log('🎯 Image route hit!', req.path)
   const imagePath = req.path.replace('/images/', '')
   const possiblePaths = [
-    path.join(process.cwd(), 'backend/public/images', imagePath),
-    path.join(process.cwd(), 'public/images', imagePath),
-    path.join(__dirname, '../public/images', imagePath),
+    path.join(process.cwd(), 'public/images', imagePath), // Railway: /app/backend/public/images
+    path.join(__dirname, '../public/images', imagePath),  // Railway: /app/backend/src/../public/images
+    path.join(process.cwd(), 'backend/public/images', imagePath), // Fallback
     path.join(process.cwd(), 'frontend/public/images', imagePath),
     path.join(process.cwd(), 'frontend/dist/images', imagePath),
     path.join(__dirname, '../../frontend/public/images', imagePath),
