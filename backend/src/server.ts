@@ -201,6 +201,24 @@ for (const testPath of possiblePublicPaths) {
 if (frontendDistPath) {
   console.log('📦 Serving frontend from:', frontendDistPath)
   
+  // Check if images folder exists, if not, try to serve from source
+  const imagesDistPath = path.join(frontendDistPath, 'images')
+  const possibleImagePaths = [
+    imagesDistPath,
+    path.join(process.cwd(), 'frontend/public/images'),
+    path.join(__dirname, '../../frontend/public/images'),
+    path.join(process.cwd(), 'public/images'),
+  ]
+  
+  let imagesPath = null
+  for (const testPath of possibleImagePaths) {
+    if (fs.existsSync(testPath) && fs.readdirSync(testPath).length > 0) {
+      imagesPath = testPath
+      console.log('✅ Found images at:', imagesPath)
+      break
+    }
+  }
+  
   // Serve static files with proper configuration
   app.use(express.static(frontendDistPath, {
     maxAge: '1y', // Cache static assets for 1 year
@@ -208,6 +226,18 @@ if (frontendDistPath) {
     lastModified: true,
     index: false, // Don't serve index.html for directories, only explicit requests
   }))
+  
+  // Serve images from wherever they're found
+  if (imagesPath) {
+    console.log('📸 Serving images from:', imagesPath)
+    app.use('/images', express.static(imagesPath, {
+      maxAge: '1y',
+      etag: true,
+      lastModified: true,
+    }))
+  } else {
+    console.log('⚠️  Images folder not found in any of these locations:', possibleImagePaths)
+  }
   
   // Serve React app - catch-all handler for client-side routing
   // This should be last, AFTER static file serving
@@ -217,11 +247,12 @@ if (frontendDistPath) {
       return next()
     }
     // Skip static asset requests (they should be handled by express.static above)
+    // If they reach here, they don't exist - pass to 404 handler
     if (req.path.startsWith('/assets/') || 
         req.path.startsWith('/images/') || 
         req.path.startsWith('/vite.svg') ||
         req.path.match(/\.(js|css|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|eot)$/)) {
-      return next()
+      return next() // This will trigger 404 from notFound middleware
     }
     // Serve index.html for all other routes (React Router)
     res.sendFile(path.join(frontendDistPath, 'index.html'))
