@@ -304,11 +304,22 @@ if (frontendDistPath) {
   }
   
   // Remove images from frontend dist so express.static doesn't serve them
-  // Our custom /images/* route will handle all image requests
+  // We'll serve images from backend/public/images instead
   const imagesDistPath = path.join(frontendDistPath, 'images')
   if (fs.existsSync(imagesDistPath)) {
     console.log('🗑️  Removing images from frontend dist to prevent express.static conflicts')
     fs.rmSync(imagesDistPath, { recursive: true, force: true })
+  }
+  
+  // Serve images from backend/public/images
+  const backendImagesPath = path.join(process.cwd(), 'public/images')
+  if (fs.existsSync(backendImagesPath)) {
+    console.log('📸 Serving images from:', backendImagesPath)
+    app.use('/images', express.static(backendImagesPath, {
+      maxAge: '1y',
+      etag: true,
+      lastModified: true,
+    }))
   }
   
   // Serve static files with proper configuration
