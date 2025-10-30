@@ -77,6 +77,60 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'OK', timestamp: new Date().toISOString() })
 })
 
+// Debug route to check if images directory exists
+app.get('/api/debug/static-files', (req, res) => {
+  const possibleFrontendPaths = [
+    path.join(__dirname, '../../frontend/dist'),
+    path.join(process.cwd(), 'frontend/dist'),
+    path.join(process.cwd(), '../frontend/dist'),
+    path.resolve(__dirname, '../../../frontend/dist'),
+  ]
+  
+  const possiblePublicPaths = [
+    path.join(__dirname, '../public'),
+    path.join(process.cwd(), 'backend/public'),
+    path.join(process.cwd(), 'public'),
+  ]
+  
+  let foundFrontendPath = null
+  let foundPublicPath = null
+  
+  for (const testPath of possibleFrontendPaths) {
+    if (fs.existsSync(testPath)) {
+      foundFrontendPath = testPath
+      break
+    }
+  }
+  
+  for (const testPath of possiblePublicPaths) {
+    if (fs.existsSync(testPath)) {
+      foundPublicPath = testPath
+      break
+    }
+  }
+  
+  const debugInfo: any = {
+    frontendDistPath: foundFrontendPath,
+    publicPath: foundPublicPath,
+    cwd: process.cwd(),
+    __dirname,
+    frontendExists: foundFrontendPath ? fs.existsSync(foundFrontendPath) : false,
+    publicExists: foundPublicPath ? fs.existsSync(foundPublicPath) : false,
+  }
+  
+  if (foundFrontendPath && fs.existsSync(foundFrontendPath)) {
+    const imagesPath = path.join(foundFrontendPath, 'images')
+    debugInfo.imagesPath = imagesPath
+    debugInfo.imagesExists = fs.existsSync(imagesPath)
+    if (fs.existsSync(imagesPath)) {
+      debugInfo.imageFiles = fs.readdirSync(imagesPath).slice(0, 10)
+    }
+    debugInfo.allFiles = fs.readdirSync(foundFrontendPath)
+  }
+  
+  res.json(debugInfo)
+})
+
 // API routes
 app.use('/api/professional-info', professionalInfoRoutes)
 
@@ -146,24 +200,47 @@ for (const testPath of possiblePublicPaths) {
 // Serve frontend build if found
 if (frontendDistPath) {
   console.log('📦 Serving frontend from:', frontendDistPath)
-  app.use(express.static(frontendDistPath))
+  
+  // Serve static files with proper configuration
+  app.use(express.static(frontendDistPath, {
+    maxAge: '1y', // Cache static assets for 1 year
+    etag: true,
+    lastModified: true,
+    index: false, // Don't serve index.html for directories, only explicit requests
+  }))
   
   // Serve React app - catch-all handler for client-side routing
-  app.get('*', (req, res) => {
-    // Don't serve HTML for API routes
+  // This should be last, AFTER static file serving
+  app.get('*', (req, res, next) => {
+    // Skip API routes
     if (req.path.startsWith('/api/')) {
-      return notFound(req, res)
+      return next()
     }
+    // Skip static asset requests (they should be handled by express.static above)
+    if (req.path.startsWith('/assets/') || 
+        req.path.startsWith('/images/') || 
+        req.path.startsWith('/vite.svg') ||
+        req.path.match(/\.(js|css|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|eot)$/)) {
+      return next()
+    }
+    // Serve index.html for all other routes (React Router)
     res.sendFile(path.join(frontendDistPath, 'index.html'))
   })
 } else if (publicPath) {
   // Fallback to public directory
   console.log('📦 Serving static files from:', publicPath)
-  app.use(express.static(publicPath))
+  app.use(express.static(publicPath, {
+    maxAge: '1y',
+    etag: true,
+    lastModified: true,
+  }))
   
-  app.get('*', (req, res) => {
+  app.get('*', (req, res, next) => {
     if (req.path.startsWith('/api/')) {
-      return notFound(req, res)
+      return next()
+    }
+    if (req.path.startsWith('/images/') || req.path.match(/\.(js|css|png|jpg|jpeg|gif|svg|ico)$/)) {
+      return next()
     }
     res.sendFile(path.join(publicPath, 'index.html'))
   })
