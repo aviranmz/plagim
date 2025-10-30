@@ -308,28 +308,7 @@ if (frontendDistPath) {
   
   // Images are handled by the route registered above
 
-  // Serve React app - catch-all handler for client-side routing
-  // This should be last, AFTER static file serving
-  app.get('*', (req, res, next) => {
-    // Skip API routes
-    if (req.path.startsWith('/api/')) {
-      return next()
-    }
-    // Skip test routes
-    if (req.path.startsWith('/test-')) {
-      return next()
-    }
-    // Skip static asset requests (they should be handled by express.static above)
-    // If they reach here, they don't exist - pass to 404 handler
-    if (req.path.startsWith('/assets/') || 
-        req.path.startsWith('/images/') || 
-        req.path.startsWith('/vite.svg') ||
-        req.path.match(/\.(js|css|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|eot)$/)) {
-      return next() // This will trigger 404 from notFound middleware
-    }
-    // Serve index.html for all other routes (React Router)
-    res.sendFile(path.join(frontendDistPath, 'index.html'))
-  })
+  // Note: Catch-all route moved to the end of the file
 } else if (publicPath) {
   // Fallback to public directory
   console.log('📦 Serving static files from:', publicPath)
@@ -365,6 +344,30 @@ if (frontendDistPath) {
         professionalInfo: '/api/professional-info'
       }
     })
+  })
+}
+
+// Catch-all route for React app (must be last)
+if (frontendDistPath) {
+  app.get('*', (req, res, next) => {
+    // Skip API routes
+    if (req.path.startsWith('/api/')) {
+      return next()
+    }
+    // Skip test routes
+    if (req.path.startsWith('/test-')) {
+      return next()
+    }
+    // Skip static asset requests (they should be handled by express.static above)
+    // If they reach here, they don't exist - pass to 404 handler
+    if (req.path.startsWith('/assets/') || 
+        req.path.startsWith('/images/') || 
+        req.path.startsWith('/vite.svg') ||
+        req.path.match(/\.(js|css|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|eot)$/)) {
+      return next() // This will trigger 404 from notFound middleware
+    }
+    // Serve index.html for all other routes (React Router)
+    res.sendFile(path.join(frontendDistPath, 'index.html'))
   })
 }
 
