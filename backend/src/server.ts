@@ -128,6 +128,18 @@ app.get('/api/debug/static-files', (req, res) => {
     debugInfo.allFiles = fs.readdirSync(foundFrontendPath)
   }
   
+  // Check backend public folder contents
+  if (foundPublicPath && fs.existsSync(foundPublicPath)) {
+    debugInfo.backendPublicFiles = fs.readdirSync(foundPublicPath)
+    const backendImagesPath = path.join(foundPublicPath, 'images')
+    if (fs.existsSync(backendImagesPath)) {
+      debugInfo.backendImagesExists = true
+      debugInfo.backendImageFiles = fs.readdirSync(backendImagesPath).slice(0, 10)
+    } else {
+      debugInfo.backendImagesExists = false
+    }
+  }
+  
   res.json(debugInfo)
 })
 
