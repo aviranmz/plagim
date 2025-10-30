@@ -146,6 +146,11 @@ app.get('/api/debug/static-files', (req, res) => {
 // API routes
 app.use('/api/professional-info', professionalInfoRoutes)
 
+// Test route to verify routing works
+app.get('/test-images', (req, res) => {
+  res.json({ message: 'Image route test', timestamp: new Date().toISOString() })
+})
+
 // Database-dependent routes (only load if database is available)
 if (process.env.DATABASE_URL) {
   // Use dynamic imports for routes that depend on database
