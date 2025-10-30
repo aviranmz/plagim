@@ -91,3 +91,6 @@ frontend/public
 # Temporary folders
 tmp/
 temp/
+
+# Project-local npm cache
+/.npm-cache/

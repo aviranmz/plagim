@@ -23,10 +23,10 @@
     "test:backend": "npm run test --workspace=backend",
     "type-check": "npm run type-check --workspace=frontend && npm run type-check --workspace=backend",
     "clean": "npm run clean --workspace=frontend && npm run clean --workspace=backend",
-    "start": "npm run dev:backend",
+    "start": "node backend/dist/server.js",
     "start:frontend": "npm run preview --workspace=frontend",
     "start:backend": "npm run start --workspace=backend",
-    "prepare": "husky",
+    "prepare": "husky install",
     "precommit": "npm run lint && npm run build && npm run test"
   },
   "devDependencies": {
@@ -55,7 +55,7 @@
     ]
   },
   "engines": {
-    "node": ">=24.0.0",
+    "node": ">=22.0.0",
     "npm": ">=10.0.0"
   },
   "repository": {

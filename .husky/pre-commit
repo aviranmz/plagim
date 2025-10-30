@@ -1,9 +1,55 @@
 #!/usr/bin/env sh
 . "$(dirname "$0")/_/husky.sh"
 
-echo "🔍 Running pre-commit checks with lint-staged..."
+echo "🔍 Running pre-commit checks..."
 
-# Run lint-staged for staged files only
-npx lint-staged
+# Check if we're in the backend directory or root
+if [ -f "package.json" ] && [ -d "backend" ]; then
+  echo "📦 Root project detected - running full checks"
+  
+  # Backend checks
+  echo "🔧 Checking backend..."
+  cd backend
+  if [ -f "package.json" ]; then
+    echo "  📋 Running backend linting..."
+    npm run lint || { echo "❌ Backend linting failed"; exit 1; }
+    
+    echo "  🏗️  Running backend build..."
+    npm run build || { echo "❌ Backend build failed"; exit 1; }
+    
+    echo "  ✅ Backend checks passed"
+  fi
+  cd ..
+  
+  # Frontend checks
+  echo "🎨 Checking frontend..."
+  cd frontend
+  if [ -f "package.json" ]; then
+    echo "  📋 Running frontend linting..."
+    npm run lint || { echo "❌ Frontend linting failed"; exit 1; }
+    
+    echo "  🏗️  Running frontend build..."
+    npm run build || { echo "❌ Frontend build failed"; exit 1; }
+    
+    echo "  ✅ Frontend checks passed"
+  fi
+  cd ..
+  
+elif [ -f "package.json" ]; then
+  echo "📦 Single package detected - running checks"
+  
+  echo "📋 Running linting..."
+  npm run lint || { echo "❌ Linting failed"; exit 1; }
+  
+  echo "🏗️  Running build..."
+  npm run build || { echo "❌ Build failed"; exit 1; }
+  
+  echo "🧪 Running tests..."
+  npm test || { echo "❌ Tests failed"; exit 1; }
+  
+  echo "✅ All checks passed"
+else
+  echo "⚠️  No package.json found, skipping checks"
+fi
 
 echo "🎉 Pre-commit checks completed successfully!"

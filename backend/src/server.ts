@@ -258,7 +258,7 @@ if (frontendDistPath) {
   console.log('📦 Serving frontend from:', frontendDistPath)
   
   // Check if images folder exists, if not, try to copy from source
-  const imagesDistPath = path.join(frontendDistPath, 'images')
+  const frontendImagesDistPath = path.join(frontendDistPath, 'images')
   const imagesSourcePaths = [
     path.join(process.cwd(), 'frontend/public/images'),
     path.join(__dirname, '../../frontend/public/images'),
@@ -266,23 +266,23 @@ if (frontendDistPath) {
   ]
   
   // If images don't exist in dist, try to copy them from source
-  if (!fs.existsSync(imagesDistPath)) {
+  if (!fs.existsSync(frontendImagesDistPath)) {
     console.log('⚠️  Images folder not found in dist, attempting to copy from source...')
     for (const sourcePath of imagesSourcePaths) {
       if (fs.existsSync(sourcePath) && fs.readdirSync(sourcePath).length > 0) {
         try {
-          if (!fs.existsSync(imagesDistPath)) {
-            fs.mkdirSync(imagesDistPath, { recursive: true })
+          if (!fs.existsSync(frontendImagesDistPath)) {
+            fs.mkdirSync(frontendImagesDistPath, { recursive: true })
           }
           const files = fs.readdirSync(sourcePath)
           files.forEach(file => {
             const srcFile = path.join(sourcePath, file)
-            const destFile = path.join(imagesDistPath, file)
+            const destFile = path.join(frontendImagesDistPath, file)
             if (!fs.existsSync(destFile)) {
               fs.copyFileSync(srcFile, destFile)
             }
           })
-          console.log(`✅ Copied ${files.length} images from ${sourcePath} to ${imagesDistPath}`)
+          console.log(`✅ Copied ${files.length} images from ${sourcePath} to ${frontendImagesDistPath}`)
           break
         } catch (error) {
           console.log(`❌ Failed to copy images from ${sourcePath}:`, error.message)
@@ -295,7 +295,7 @@ if (frontendDistPath) {
   const possibleImagePaths = [
     path.join(process.cwd(), 'backend/public/images'), // Railway build copies images here
     path.join(process.cwd(), 'public/images'),
-    imagesDistPath,
+    frontendImagesDistPath,
     ...imagesSourcePaths,
   ]
   
@@ -310,20 +310,32 @@ if (frontendDistPath) {
   
   // Remove images from frontend dist so express.static doesn't serve them
   // We'll serve images from backend/public/images instead
-  if (fs.existsSync(imagesDistPath)) {
+  if (fs.existsSync(frontendImagesDistPath)) {
     console.log('🗑️  Removing images from frontend dist to prevent express.static conflicts')
-    fs.rmSync(imagesDistPath, { recursive: true, force: true })
+    fs.rmSync(frontendImagesDistPath, { recursive: true, force: true })
   }
   
-  // Serve images from backend/public/images
-  const backendImagesPath = path.join(process.cwd(), 'public/images')
-  if (fs.existsSync(backendImagesPath)) {
-    console.log('📸 Serving images from:', backendImagesPath)
-    app.use('/images', express.static(backendImagesPath, {
+  // Serve images, preferring backend/public/images on Railway
+  const imageRootCandidates = [
+    path.join(process.cwd(), 'backend/public/images'), // Railway/Nixpacks: /app/backend/public/images
+    path.join(process.cwd(), 'public/images'),         // Fallback
+  ]
+  let resolvedImagesRoot: string | null = null
+  for (const candidate of imageRootCandidates) {
+    if (fs.existsSync(candidate)) {
+      resolvedImagesRoot = candidate
+      break
+    }
+  }
+  if (resolvedImagesRoot) {
+    console.log('📸 Serving images from:', resolvedImagesRoot)
+    app.use('/images', express.static(resolvedImagesRoot, {
       maxAge: '1y',
       etag: true,
       lastModified: true,
     }))
+  } else {
+    console.log('⚠️  No images directory found at any known location')
   }
   
   // Serve static files with proper configuration
