@@ -26,7 +26,6 @@
     "start": "npm run dev:backend",
     "start:frontend": "npm run preview --workspace=frontend",
     "start:backend": "npm run start --workspace=backend",
-    "serve:frontend": "npm run preview --workspace=frontend",
     "prepare": "husky",
     "precommit": "npm run lint && npm run build && npm run test"
   },

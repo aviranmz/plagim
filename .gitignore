@@ -81,7 +81,8 @@ dist
 
 # Gatsby files
 .cache/
-public
+# Only ignore frontend public folder, not backend public
+frontend/public
 
 # Storybook build outputs
 .out
