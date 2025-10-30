@@ -134,6 +134,24 @@ app.get('/api/debug/static-files', (req, res) => {
 // API routes
 app.use('/api/professional-info', professionalInfoRoutes)
 
+// Direct image serving route (fallback)
+app.get('/images/*', (req, res, next) => {
+  const imagePath = req.path.replace('/images/', '')
+  const possiblePaths = [
+    path.join(process.cwd(), 'backend/public/images', imagePath),
+    path.join(process.cwd(), 'frontend/public/images', imagePath),
+    path.join(process.cwd(), 'frontend/dist/images', imagePath),
+  ]
+  
+  for (const fullPath of possiblePaths) {
+    if (fs.existsSync(fullPath)) {
+      return res.sendFile(fullPath)
+    }
+  }
+  
+  res.status(404).json({ error: `Image ${imagePath} not found` })
+})
+
 // Database-dependent routes (only load if database is available)
 if (process.env.DATABASE_URL) {
   // Use dynamic imports for routes that depend on database
@@ -237,9 +255,10 @@ if (frontendDistPath) {
   
   // Check multiple possible paths for serving images
   const possibleImagePaths = [
+    path.join(process.cwd(), 'backend/public/images'), // Railway build copies images here
+    path.join(process.cwd(), 'public/images'),
     imagesDistPath,
     ...imagesSourcePaths,
-    path.join(process.cwd(), 'public/images'),
   ]
   
   let imagesPath = null
@@ -269,6 +288,17 @@ if (frontendDistPath) {
     }))
   } else {
     console.log('⚠️  Images folder not found in any of these locations:', possibleImagePaths)
+  }
+  
+  // Additional fallback: serve images directly from source if dist is empty
+  const sourceImagesPath = path.join(process.cwd(), 'frontend/public/images')
+  if (fs.existsSync(sourceImagesPath) && fs.readdirSync(sourceImagesPath).length > 0) {
+    console.log('📸 Adding fallback images route from source:', sourceImagesPath)
+    app.use('/images', express.static(sourceImagesPath, {
+      maxAge: '1y',
+      etag: true,
+      lastModified: true,
+    }))
   }
   
   // Serve React app - catch-all handler for client-side routing
