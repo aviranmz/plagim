@@ -348,28 +348,42 @@ if (frontendDistPath) {
 }
 
 // Catch-all route for React app (must be last)
-if (frontendDistPath) {
-  app.get('*', (req, res, next) => {
-    // Skip API routes
-    if (req.path.startsWith('/api/')) {
-      return next()
+app.get('*', (req, res, next) => {
+  // Skip API routes
+  if (req.path.startsWith('/api/')) {
+    return next()
+  }
+  // Skip test routes
+  if (req.path.startsWith('/test-')) {
+    return next()
+  }
+  // Skip static asset requests (they should be handled by express.static above)
+  // If they reach here, they don't exist - pass to 404 handler
+  if (req.path.startsWith('/assets/') || 
+      req.path.startsWith('/images/') || 
+      req.path.startsWith('/vite.svg') ||
+      req.path.match(/\.(js|css|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|eot)$/)) {
+    return next() // This will trigger 404 from notFound middleware
+  }
+  
+  // Try to serve React app if frontend is available
+  const possibleFrontendPaths = [
+    path.join(__dirname, '../../frontend/dist'),
+    path.join(process.cwd(), 'frontend/dist'),
+    path.join(process.cwd(), '../frontend/dist'),
+    path.resolve(__dirname, '../../../frontend/dist'),
+  ]
+  
+  for (const testPath of possibleFrontendPaths) {
+    const indexPath = path.join(testPath, 'index.html')
+    if (fs.existsSync(testPath) && fs.existsSync(indexPath)) {
+      return res.sendFile(indexPath)
     }
-    // Skip test routes
-    if (req.path.startsWith('/test-')) {
-      return next()
-    }
-    // Skip static asset requests (they should be handled by express.static above)
-    // If they reach here, they don't exist - pass to 404 handler
-    if (req.path.startsWith('/assets/') || 
-        req.path.startsWith('/images/') || 
-        req.path.startsWith('/vite.svg') ||
-        req.path.match(/\.(js|css|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|eot)$/)) {
-      return next() // This will trigger 404 from notFound middleware
-    }
-    // Serve index.html for all other routes (React Router)
-    res.sendFile(path.join(frontendDistPath, 'index.html'))
-  })
-}
+  }
+  
+  // If no frontend found, pass to 404 handler
+  next()
+})
 
 // Error handling middleware
 app.use(notFound)
